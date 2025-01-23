@@ -1,0 +1,203 @@
+[
+    {
+      "_id": "1",
+      "name": "Coding Keyboard",
+      "description": "Mechanical Keyboard optimized for Coding with customizable keycaps",
+      "price": 3500,
+      "image": "https://picsum.photos/200",
+      "category": "gadget"
+    },
+    {
+      "_id": "2",
+      "name": "Smart Watch",
+      "description": "Stylish smartwatch with fitness tracking and notification features",
+      "price": 4500,
+      "image": "https://picsum.photos/200",
+      "category": "gadget"
+    },
+    {
+      "_id": "3",
+      "name": "Laptop Sleeve",
+      "description": "Protective sleeve for 15-inch laptops with a minimalist design",
+      "price": 800,
+      "image": "https://picsum.photos/200",
+      "category": "accessories"
+    },
+    {
+      "_id": "4",
+      "name": "Leather Wallet",
+      "description": "Premium leather wallet with multiple card slots and a coin pocket",
+      "price": 1500,
+      "image": "https://picsum.photos/200",
+      "category": "accessories"
+    },
+    {
+      "_id": "5",
+      "name": "Winter Jacket",
+      "description": "Warm and stylish jacket for cold weather with insulated lining",
+      "price": 3500,
+      "image": "https://picsum.photos/200",
+      "category": "clothing"
+    },
+    {
+      "_id": "6",
+      "name": "Sneakers",
+      "description": "Comfortable and breathable sneakers perfect for casual wear",
+      "price": 2500,
+      "image": "https://picsum.photos/200",
+      "category": "clothing"
+    },
+    {
+      "_id": "7",
+      "name": "Bluetooth Headphones",
+      "description": "Wireless headphones with noise cancellation and superior sound quality",
+      "price": 3200,
+      "image": "https://picsum.photos/200",
+      "category": "gadget"
+    },
+    {
+      "_id": "8",
+      "name": "Canvas Backpack",
+      "description": "Durable canvas backpack with multiple compartments and adjustable straps",
+      "price": 1200,
+      "image": "https://picsum.photos/200",
+      "category": "accessories"
+    },
+    {
+      "_id": "9",
+      "name": "Graphic T-Shirt",
+      "description": "Stylish t-shirt with a cool graphic design, perfect for casual outings",
+      "price": 700,
+      "image": "https://picsum.photos/200",
+      "category": "clothing"
+    },
+    {
+      "_id": "10",
+      "name": "Portable Power Bank",
+      "description": "Compact power bank with fast charging and high capacity for smartphones",
+      "price": 900,
+      "image": "https://picsum.photos/200",
+      "category": "gadget"
+    },
+    {
+      "_id": "11",
+      "name": "Smartphone Case",
+      "description": "Protective phone case with a sleek design for iPhone and Android devices",
+      "price": 350,
+      "image": "https://picsum.photos/200",
+      "category": "accessories"
+    },
+    {
+      "_id": "12",
+      "name": "Sports Watch",
+      "description": "Durable sports watch with stopwatch, heart rate monitor, and GPS",
+      "price": 2500,
+      "image": "https://picsum.photos/200",
+      "category": "gadget"
+    },
+    {
+      "_id": "13",
+      "name": "Hoodie",
+      "description": "Comfortable hoodie with a soft inner lining, ideal for casual wear",
+      "price": 1200,
+      "image": "https://picsum.photos/200",
+      "category": "clothing"
+    },
+    {
+      "_id": "14",
+      "name": "Acrylic Desk Organizer",
+      "description": "Sleek acrylic organizer to keep your desk tidy and your items accessible",
+      "price": 600,
+      "image": "https://picsum.photos/200",
+      "category": "accessories"
+    },
+    {
+      "_id": "15",
+      "name": "LED Desk Lamp",
+      "description": "Energy-efficient desk lamp with adjustable brightness and color temperature",
+      "price": 1200,
+      "image": "https://picsum.photos/200",
+      "category": "gadget"
+    },
+    {
+      "_id": "16",
+      "name": "Baseball Cap",
+      "description": "Classic baseball cap with adjustable strap and embroidered logo",
+      "price": 500,
+      "image": "https://picsum.photos/200",
+      "category": "accessories"
+    },
+    {
+      "_id": "17",
+      "name": "Button-Down Shirt",
+      "description": "Cotton button-down shirt, perfect for both casual and business occasions",
+      "price": 1500,
+      "image": "https://picsum.photos/200",
+      "category": "clothing"
+    },
+    {
+      "_id": "18",
+      "name": "Multi-tool Pocket Knife",
+      "description": "Compact and durable pocket knife with multiple built-in tools for outdoor activities",
+      "price": 700,
+      "image": "https://picsum.photos/200",
+      "category": "swag"
+    },
+    {
+      "_id": "19",
+      "name": "Vinyl Stickers",
+      "description": "Pack of cool vinyl stickers with various designs to personalize your items",
+      "price": 300,
+      "image": "https://picsum.photos/200",
+      "category": "swag"
+    },
+    {
+      "_id": "20",
+      "name": "Smartphone Stand",
+      "description": "Adjustable stand to hold your smartphone while watching videos or video calling",
+      "price": 400,
+      "image": "https://picsum.photos/200",
+      "category": "gadget"
+    },
+    {
+      "_id": "21",
+      "name": "Tote Bag",
+      "description": "Spacious tote bag made from durable fabric, perfect for shopping or carrying books",
+      "price": 800,
+      "image": "https://picsum.photos/200",
+      "category": "accessories"
+    },
+    {
+      "_id": "22",
+      "name": "Fleece Jacket",
+      "description": "Lightweight fleece jacket, perfect for layering in colder weather",
+      "price": 2000,
+      "image": "https://picsum.photos/200",
+      "category": "clothing"
+    },
+    {
+      "_id": "23",
+      "name": "Customized Mug",
+      "description": "Personalized ceramic mug with custom print for your morning coffee",
+      "price": 350,
+      "image": "https://picsum.photos/200",
+      "category": "swag"
+    },
+    {
+      "_id": "24",
+      "name": "Fitness Tracker",
+      "description": "Activity tracker with step counting, heart rate monitoring, and sleep tracking",
+      "price": 2500,
+      "image": "https://picsum.photos/200",
+      "category": "gadget"
+    },
+    {
+      "_id": "25",
+      "name": "Stylish Scarf",
+      "description": "Soft and stylish scarf made from high-quality material, perfect for chilly weather",
+      "price": 1200,
+      "image": "https://picsum.photos/200",
+      "category": "clothing"
+    }
+  ]
+  
