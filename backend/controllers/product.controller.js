@@ -1,8 +1,10 @@
-const ProductModel = require("../models/Product");
+const ProductModel = require("../model/Product");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const secret = process.env.SECRET;
-/**
+
+exports.createProduct = async (req, res) => {
+  /**
     #swagger.tags = ['Product']
     #swagger.summary = "Create a new product"
     #swagger.description = 'Endpoint to create a new product'
@@ -28,133 +30,117 @@ const secret = process.env.SECRET;
        description: "Product created successfully"
     }
    */
-exports.createProduct = async (req, res) => {
-  //File upload
-  // console.log(req.file);
   if (!req.file) {
     return res.status(400).json({ message: "Image is required" });
   }
   const firebaseUrl = req.file.firebaseUrl;
-  // console.log(firebaseUrl);
-
   const { name, description, category, price } = req.body;
   if (!name || !description || !category || !price) {
-    return res.status(400).json({ message: "All Fields is required" });
+    return res.status(400).json({ message: "Please fill in all fields" });
   }
   try {
-    const productDoc = await ProductModel.create({
+    const ProductDoc = await ProductModel.create({
       name,
       description,
       category,
-      price,
       image: firebaseUrl,
+      price,
     });
-    if (!productDoc) {
-      res.status(404).send({
-        message: "Cannot create new product!",
-      });
-      return;
-    }
-    res.json(productDoc);
+    res.json(ProductDoc);
   } catch (error) {
-    res.status(500).send({
-      message:
-        error.message || "Something error occurred while creating new product",
-    });
+    console.log(error.message);
+    res.status(500).json({ message: "Failed to create Product" });
   }
 };
 
-exports.getProducts = async (req, res) => {
+exports.getProduct = async (req, res) => {
   try {
-    const products = await ProductModel.find();
-    //SELECT * FROM , USER WHERE POST.author = USER._id
-    if (!products) {
-      res.status(404).send({
-        message: "Product not found!",
-      });
-      return;
+    const Product = await ProductModel.find();
+    //SELECT * FROM Product WHERE Product.author =USER._id
+    if (!Product) {
+      return res.status(404).json({ message: "No Product found" });
     }
-    res.json(products);
+    res.json(Product);
   } catch (error) {
-    res.status(500).send({
-      message:
-        error.message || "Something error occurred while retrieving products",
-    });
+    console.log(error.message);
+    res.status(500).send({ message: error.message || "Internal server error" });
   }
 };
 
 exports.getProductById = async (req, res) => {
   const { id } = req.params;
-
   try {
-    const productDoc = await ProductModel.findById(id);
-    if (!productDoc) {
-      res.status(404).send({
-        message: "Product not found!",
-      });
-      return;
+    const ProductDoc = await ProductModel.findById(id);
+    if (!ProductDoc) {
+      return res.status(404).send({ message: "Product not found" });
     }
-    res.json(productDoc);
+    res.json(ProductDoc);
   } catch (error) {
     console.log(error.message);
-    res.status(500).send({
-      message: "Something error occurred while getting product details",
-    });
+    res.status(500).send({ message: error.message || "Internal server error" });
   }
 };
 
 exports.deleteProduct = async (req, res) => {
   const { id } = req.params;
   try {
-    const productDoc = await ProductModel.findById(id);
-    if (!productDoc) {
-      res.status(404).send({
-        message: "Product not found!",
-      });
+    const ProductDoc = await ProductModel.findById(id);
+    if (!ProductDoc) {
+      res.status(404).send({ message: "You can not delete Product" });
       return;
     }
-    await productDoc.deleteOne();
-    res.json(productDoc);
+    await ProductDoc.deleteOne();
+    res.json({ message: "Product deleted successfully" });
   } catch (error) {
-    res.status(500).send({
-      message:
-        error.message || "Something error occurred while deleting a product",
-    });
+    console.log(error.message);
+    res.status(500).send({ message: error.message || "delete Product error" });
   }
 };
 
 exports.updateProduct = async (req, res) => {
   const { id } = req.params;
-  if (!id)
-    return res.status(404).json({ message: "Product id is not provided" });
+  if (!id) return res.status(404).json({ message: "Product not provided" });
 
   try {
-    const productDoc = await ProductModel.findById(id);
-    if (!productDoc) {
-      res.status(404).send({
-        message: "Product not found!",
-      });
+    const ProductDoc = await ProductModel.findById(id);
+    if (!ProductDoc) {
+      res.status(404).send({ message: "You can not update Product" });
       return;
     }
+
     const { name, category, description, price } = req.body;
-    if (!name || !description || !category || !price) {
-      return res.status(400).json({ message: "All Fields is required" });
+    if (!name || !category || !description || !price) {
+      return res.status(400).json({ message: "Please fill in all fields" });
     }
-    productDoc.name = name;
-    productDoc.category = category;
-    productDoc.description = description;
-    productDoc.price = price;
+    ProductDoc.name = name;
+    ProductDoc.category = category;
+    ProductDoc.description = description;
+    ProductDoc.price = price;
     if (req.file) {
       const path = req.file.firebaseUrl;
-      productDoc.image = path;
+      ProductDoc.image = path;
     }
-    await productDoc.save();
-    res.json(productDoc);
+    await ProductDoc.save();
+    res.json({ message: "Product updated successfully" });
   } catch (error) {
     console.log(error.message);
-    res.status(500).send({
-      message:
-        error.message || "Something error occurred while updating a product",
-    });
+    res.status(500).send({ message: error.message || "update Product error" });
+  }
+};
+
+exports.getProductByAuthor = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const ProductDoc = await ProductModel.find({ author: id }).populate(
+      "author",
+      ["username"]
+    );
+    if (!ProductDoc) {
+      return res.status(404).send({ message: "author not found" });
+    }
+    res.json(ProductDoc);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message || "Internal server error" });
   }
 };

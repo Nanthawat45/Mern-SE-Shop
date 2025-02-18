@@ -4,7 +4,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const userRouter = require("./routers/user.router");
 const postRouter = require("./routers/Product.router");
-
+const cartRouter = require("./routers/cart.routers");
 
 const app = express();
 const BASE_URL = process.env.BASE_URL;
@@ -30,6 +30,7 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 //use Router
 app.use("/api/v1/auth", userRouter);
 app.use("/api/v1/post", postRouter);
+app.use("/api/v1/post", cartRouter);
 
 app.listen(PORT, () => {
   console.log("Server is running on http://localhost:" + PORT);

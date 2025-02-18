@@ -6,7 +6,8 @@ const authJwt = require("../middlewares/auth.Jwt.middlewares");
 
 
 //http://localhost:5000/api/v1/Product
-router.post("", authJwt.verifyToken, upload, productController.createProduct);
+//router.post("/", uploadToFirebase, upload, productController.createProduct);
+router.post("",authJwt.verifyToken,upload,uploadToFirebase,productController.createProduct);
 //http://localhost:5000/api/v1/Product
 router.get("", productController.getProducts);
 //http://localhost:5000/api/v1/Product/32132123131

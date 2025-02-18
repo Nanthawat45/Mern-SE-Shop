@@ -1,10 +1,57 @@
 import React, { useState } from "react";
+import { useQuery } from '@tanstack/react-query'
+import { AuthContext } from '../context/AuthContext'
+import { useContext } from "react";
+import useCart from "../hocks/useCart";
+import Swal from "sweetalert2";
+import Product from "../pages/Home/Poroduct";
+import CartService from "../services/cart.sarvices";
 
 const Card = ({ item }) => {
   const { _id, name, image, description, category, price } = item;
+const {user}=useContext(AuthContext);
+const [cart, refetch]= useCart();
   const [isHeartFilled, setIsHeartFilled] = useState(false);
   const handleHeartClick = () => {
     setIsHeartFilled(!isHeartFilled);
+  };
+  const handleAddToCart = async () =>{
+    if(!user || !user.email){
+    Swal.fire({
+      icon:"error",
+      title:"Oops...",
+      text:"Please login to add to cart"
+    });
+    return;
+  }
+
+  try{
+    const cartItem ={
+      productId:_id,
+      email: user.email,
+      quantity:1,
+      name,
+      price,
+      image,
+    };
+    const response = await CartService.createCartItem(cartItem);
+    if(response.status === 200){
+      Swal.fire({
+        icon:"success",
+        title:"Success",
+        text:"Item added to cart",
+        timer:1500,
+        showCloseButton: false,
+      });
+      refetch();
+    }
+  }catch(error){
+    Swal.fire({
+      icon:"error",
+      title:"Oops...",
+      text:""
+    });
+    }
   };
   return (
     <div className="card shadow-xl relative mr-5 md:my-5 h-120">
@@ -34,7 +81,8 @@ const Card = ({ item }) => {
           <h5 className="font-semibold">
             {price} <span className="text-sm text-red">฿</span>
           </h5>
-          <button className="btn bg-red text-white">Add to cart</button>
+          <button className="btn bg-red text-white"
+          onClick={handleAddToCart}>Add to cart</button>
         </div>
       </div>
     </div>
