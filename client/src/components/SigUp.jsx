@@ -1,10 +1,9 @@
-import { FaFacebook, FaGoogle } from "react-icons/fa6";
 import React, { useContext } from "react";
-import { FaGithub } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
 import { useNavigate, useLocation } from "react-router";
+import SocialLogin from "./SocilLogin";
 
 const SignUp = () => {
   const { createUser } = useContext(AuthContext);
@@ -37,6 +36,7 @@ const SignUp = () => {
         console.log(error);
       });
   };
+
   return (
     <div>
       <div className="modal-action mt-0 flex flex-col justify-center items-center">
@@ -86,17 +86,7 @@ const SignUp = () => {
             </a>
           </p>
         </form>
-        <div className="text-center space-x-3 mb-5">
-          <button className="btn btn-ghost btn-circle hover:bg-red hover:text-white">
-            <FaGoogle className="w-6 h-6" />
-          </button>
-          <button className="btn btn-ghost btn-circle hover:bg-red hover:text-white">
-            <FaGithub className="w-6 h-6" />
-          </button>
-          <button className="btn btn-ghost btn-circle hover:bg-red hover:text-white">
-            <FaFacebook className="w-6 h-6" />
-          </button>
-        </div>
+        <SocialLogin />
       </div>
     </div>
   );

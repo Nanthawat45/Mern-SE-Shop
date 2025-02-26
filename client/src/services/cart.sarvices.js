@@ -1,12 +1,9 @@
 import api from "./api";
 const API_URL = "/cart";
 
-const getAllCart = async()=>{
+const getAllCartItems = async()=>{
     return await api.get(`${API_URL}`);
 }
-// const usdateCartTtem = async (id, data) =>{
-//     return await api.put(`${API_URL}/${id}`, data);
-// }
 const careateCartItemByEmail = async (email) => {
     return await api.get(`${API_URL}/${email}`);
 }
@@ -24,8 +21,7 @@ const clearCart = async (email) => {
 };
 
 const CartService = {
-    getAllCart,
-    // usdateCartTtem,
+    getAllCartItems,
     careateCartItemByEmail,
     careateCartItem,
     updateCartItem,

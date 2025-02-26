@@ -1,83 +1,37 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/User");
+const e = require("express");
 const salt = bcrypt.genSaltSync(10);
 require("dotenv").config();
 const secret = process.env.SECRET;
 
-exports.register = async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
-    res.status(400).send({
-      message: "Please provide all required fields!",
-    });
-    return;
-  }
+exports.signjwt = async (req, res) => {
+  const { email } = req.body;
+  if(!email) return res.status(400).json({ message: "Email is required" });
+  const user = await UserModel.findOne({ email });
+  if(!user) return res.status(404).json({ message: "User not found" });
 
-  try {
-    const hashedPassword = bcrypt.hashSync(password, salt);
-    const user = await UserModel.create({
-      username,
-      password: hashedPassword,
-    });
-    res.send({
-      message: "User registered successfully",
-      user,
-    });
-  } catch (error) {
-    res.status(500).send({
-      message:
-        error.message ||
-        "Something error occurred while registering a new user",
-    });
-  }
+  //2.Sign JWT token
+  const token = jwt.sign({email: user.email, role: user.role},process.env.SECRET, {expiresIn: "1h"});
+  const userInfo = {
+    token : token,
+    email: user.email,
+    role: user
+  };
+  return
+  res.status(200).json({token});
 };
 
-exports.login = async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
-    res.status(400).send({
-      message: "Please provide all required fields!",
-    });
-    return;
-  }
-
+exports.addUser = async (req, res) => {
+  const {email} = req.body;
+  if(!email){
+  return res.status(400).json({message: "Email is required"});
+}
   try {
-    const userDoc = await UserModel.findOne({ username });
-    if (!userDoc) {
-      res.status(404).send({
-        message: "User not found",
-      });
-      return;
+    const existeUser = await UserModel.findOne({email});
+    if(existeUser){
+      return res.status(409).json({message: "Email is already existed"});
     }
-    const isPasswordMatched = await bcrypt.compare(password, userDoc.password);
-    if (!isPasswordMatched) {
-      res.status(401).send({
-        message: "Invalid credentials",
-      });
-      return;
-    }
-
-    //login success
-    jwt.sign({ username, id: userDoc._id }, secret, {}, (err, token) => {
-      if (err) {
-        return res.status(500).send({
-          message: "Internal server error: Authentication Failed!",
-        });
-      }
-
-      //token generated
-      res.send({
-        message: "User logged in successfully",
-        id: userDoc._id,
-        username,
-        accessToken: token,
-      });
-    });
-  } catch (error) {
-    res.status(500).send({
-      message:
-        error.message || "Something error occurred while logging in user",
-    });
-  }
-};
+}
+}

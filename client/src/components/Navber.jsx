@@ -8,6 +8,7 @@ import useCart from "../hocks/useCart";
 
 const Navbar = () => {
   const { user } = useContext(AuthContext);
+  const [cart, refetch] = useCart();
   const navItems = (
     <>
       <li>
@@ -124,7 +125,7 @@ const Navbar = () => {
               onClick={() => document.getElementById("login").showModal()}
               className="btn bg-red text-white rounded-full px-5 flex items-center"
             >
-              <FaRegUser /> Login
+              <FaRegUser className="w-6 h-6" /> Login
             </button>
           </div>
         )}

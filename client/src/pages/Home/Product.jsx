@@ -1,56 +1,72 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import productList from "./product.json";
+import ProductService from "../../services/porduct.service";
 import Card from "../../components/Card";
+
 const SampleNextArrow = (props) => {
   const { className, style, onClick } = props;
   return (
     <div
       className={className}
       style={{ ...style, display: "block", background: "red" }}
+      onClick={onClick}
     >
       NEXT
     </div>
   );
 };
+
 const SamplePrevArrow = (props) => {
   const { className, style, onClick } = props;
   return (
     <div
       className={className}
       style={{ ...style, display: "block", background: "green" }}
+      onClick={onClick}
     >
       BACK
     </div>
   );
 };
+
 const Product = () => {
-  const [products, setProduct] = useState(productList);
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await ProductService.getAllProducts();
+      const data = response.data;
+      // filter data
+      const special = data.filter((item) => item.category === "gadget");
+
+      setProducts(special);
+    };
+    fetchData();
+  }, []);
   const slider = useRef(null);
-  const setting = {
+  const settings = {
     dots: true,
-    Infinite: false,
+    infinite: false,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 3,
     initialSlide: 1,
-    nexArrow: <SampleNextArrow />,
+    nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
     responsive: [
       {
         breakpoint: 1024,
-        setting: {
+        settings: {
           dots: true,
-          Infinite: true,
+          infinite: true,
           slidesToShow: 3,
           slidesToScroll: 3,
         },
       },
       {
         breakpoint: 970,
-        setting: {
+        settings: {
           initialSlide: 2,
           slidesToShow: 2,
           slidesToScroll: 2,
@@ -58,7 +74,7 @@ const Product = () => {
       },
       {
         breakpoint: 576,
-        setting: {
+        settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
         },
@@ -89,7 +105,7 @@ const Product = () => {
       <div className="slider-container">
         <Slider
           ref={slider}
-          {...setting}
+          {...settings}
           className="overflow-hidden mt-10 space-x-5"
         >
           {products.length > 0 &&

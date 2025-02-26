@@ -3,9 +3,10 @@ const cors = require("cors");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const userRouter = require("./routers/user.router");
-const postRouter = require("./routers/Product.router");
+const productRouter = require("./routers/Product.router");
 const cartRouter = require("./routers/cart.routers");
-
+const swaggerUi = require("swagger-ui-express");
+const swagger = require("./Doc/swagger");
 const app = express();
 const BASE_URL = process.env.BASE_URL;
 const PORT = process.env.PORT;
@@ -28,9 +29,10 @@ app.get("/", (req, res) => {
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
 //use Router
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swagger));
 app.use("/api/v1/auth", userRouter);
-app.use("/api/v1/post", postRouter);
-app.use("/api/v1/post", cartRouter);
+app.use("/api/v1/product", productRouter);
+app.use("/api/v1/cart", cartRouter);
 
 app.listen(PORT, () => {
   console.log("Server is running on http://localhost:" + PORT);
