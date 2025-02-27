@@ -71,21 +71,47 @@ exports.getProducts = async (req, res) => {
     #swagger.summary = "Get all Product"
     #swagger.description = 'Endpoint to get all product'
    */
-  try {
-    const products = await ProductModel.find();
-    //SELECT * FROM , USER WHERE POST.author = USER._id
-    if (!products) {
-      res.status(404).send({
-        message: "Product not found!",
+  const { page, limit } = req.query;
+  const pageNumber = parseInt(page);
+  const limitNumber = parseInt(limit);
+  const startIndex = (pageNumber - 1) * limitNumber;
+  const endIndex = pageNumber * limitNumber;
+  const results = {};
+  if (page && limit) {
+    try {
+      const products = await ProductModel.find();
+      //SELECT * FROM , USER WHERE POST.author = USER._id
+      if (!products) {
+        res.status(404).send({
+          message: "Product not found!",
+        });
+        return;
+      }
+      results.results = products.slice(startIndex, endIndex);
+      res.json(results);
+    } catch (error) {
+      res.status(500).send({
+        message:
+          error.message || "Something error occurred while retrieving products",
       });
-      return;
     }
-    res.json(products);
-  } catch (error) {
-    res.status(500).send({
-      message:
-        error.message || "Something error occurred while retrieving products",
-    });
+  } else {
+    try {
+      const products = await ProductModel.find();
+      //SELECT * FROM , USER WHERE POST.author = USER._id
+      if (!products) {
+        res.status(404).send({
+          message: "Product not found!",
+        });
+        return;
+      }
+      res.json(products);
+    } catch (error) {
+      res.status(500).send({
+        message:
+          error.message || "Something error occurred while retrieving products",
+      });
+    }
   }
 };
 

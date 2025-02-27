@@ -7,8 +7,8 @@ const doc = {
     description: "RESTful API for SE Shop", // by default: '',
     contact: {
       name: "Worachet Uttha",
-      url: "https://pws.npru.ac.th/wuttha",
-      email: "wuttha@webmail.npru.ac.th",
+      url: "https://pws.npru.ac.th/Nanthawat",
+      email: "654259006@webmail.npru.ac.th",
     },
   },
   servers: [
@@ -20,15 +20,12 @@ const doc = {
       url: "http://render.com:5000", // by default: 'http://localhost:3000'
       description: "Online", // by default: ''
     },
-    // { ... }
   ],
   tags: [
-    // by default: empty Array
     {
       name: "Product", // Tag name
       description: "API For Product Object", // Tag description
     },
-    // { ... }
   ],
   components: {
     schemas: {
@@ -57,10 +54,10 @@ const doc = {
         category: "gadget",
       },
     },
-  }, // by default: empty object
+  },
 };
 
-const outputFile = "./swagger-output.json";
+const outputFile = "./Doc/swagger-output.json";
 const routes = ["./index.js"];
 
 /* NOTE: If you are using the express Router, you must pass in the 'routes' only the 

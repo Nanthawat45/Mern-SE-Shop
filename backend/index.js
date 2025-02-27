@@ -6,7 +6,7 @@ const userRouter = require("./routers/user.router");
 const productRouter = require("./routers/Product.router");
 const cartRouter = require("./routers/cart.routers");
 const swaggerUi = require("swagger-ui-express");
-const swagger = require("./Doc/swagger");
+const swaggerDocument = require("./Doc/swagger-output.json");
 const app = express();
 const BASE_URL = process.env.BASE_URL;
 const PORT = process.env.PORT;
@@ -23,14 +23,14 @@ try {
 app.use(cors({ origin: BASE_URL, credentials: true }));
 app.use(express.json());
 app.get("/", (req, res) => {
-  res.send("<h1>Welcome to SE NPRU Blog Restful API</h1>");
+  res.send("<h1>Welcome to SE Shop Restful API</h1>");
 });
 
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
 //use Router
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swagger));
-app.use("/api/v1/auth", userRouter);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api/v1/user", userRouter);
 app.use("/api/v1/product", productRouter);
 app.use("/api/v1/cart", cartRouter);
 

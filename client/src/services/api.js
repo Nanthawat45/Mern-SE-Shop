@@ -7,5 +7,14 @@ const instance = axios.create({
     "Content-Type": "application/json",
   },
 });
+instance.interceptors.request.use((config) => {
+  const token = TokenSarvice.getLocalAccessToken();
+  if (token) {
+    config.headers["x-access-token"] = token;
+  }
+  return config;
+},(error) => {
+  return Promise.reject(error);
+});
 
 export default instance;

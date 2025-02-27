@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
 import { useNavigate, useLocation } from "react-router";
 import SocialLogin from "./SocilLogin";
+import UserService from "../services/user.service";
 
 const SignUp = () => {
   const { createUser } = useContext(AuthContext);
@@ -20,9 +21,11 @@ const SignUp = () => {
     console.log(data);
 
     createUser(data.email, data.password)
-      .then((result) => {
+      .then(async (result) => {
         const user = result.user;
         console.log(user);
+        //TODO Sign up to local backend
+        await UserService.addUser(user.email);
         Swal.fire({
           icon: "success",
           title: "Register Successful",

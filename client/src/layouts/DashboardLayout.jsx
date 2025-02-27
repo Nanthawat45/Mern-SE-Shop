@@ -1,89 +1,97 @@
-import React from 'react';
-//import {logo} from"/logo.png";
-// import { Outlet } from 'react-router';
-// import {MdDashboard}from"react-icons/md";
-// import { IoBagCheck} from"react-icons/io5";
-// import { IomdAddCircle } from "react-icons/io";
+import React, { isValidElement } from "react";
+import logo from "/logo.png";
+import { Outlet } from "react-router";
+import { MdDashboard } from "react-icons/md";
+import { IoBagCheck } from "react-icons/io5";
+import { IoMdAddCircle } from "react-icons/io";
+import { MdOutlineDashboardCustomize } from "react-icons/md";
+import { FaUserCircle } from "react-icons/fa";
 const DashboardLayout = () => {
-    const isAdmin = true;
+  const isAdmin = true;
 
   return (
     <div>
-       {isAdmin ? (
+      {isAdmin ? (
         <div className="drawer lg:drawer-open">
-          <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content flex flex-col items-center justify-center">
-            <label
-              htmlFor="my-drawer"
-              className="btn btn-primary drawer-button lg:hidden"
-            >
-              Open drawer
-            </label>
+            {/* Page content here */}
+            <Outlet />
           </div>
-
-          {/* Sidebar */}
           <div className="drawer-side">
             <label
-              htmlFor="my-drawer"
+              htmlFor="my-drawer-2"
               aria-label="close sidebar"
               className="drawer-overlay"
             ></label>
-            <div className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-              {/* Profile Section */}
-              <div className="flex flex-col items-center mb-4">
-                <img
-                  src="https://i.imgur.com/your-avatar.png"
-                  alt="Admin Avatar"
-                  className="w-16 h-16 rounded-full"
-                />
-                <span className="bg-purple-600 text-white text-xs px-2 py-1 rounded-full mt-2">
-                  Admin
-                </span>
+            <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 ">
+              {/* Sidebar content here */}
+              <li>
+                <a href="/dashboard" className="flex justify-start mb-3">
+                  <img src={logo} className="w-20" />
+                  <div className="badge badge-primary">Admin</div>
+                </a>
+              </li>
+              <div className="relative flex py-5 items-center">
+                <div className="flex-grow border-t border-gray-400"></div>
+                <span className="flex-shrink mx-4 text-gray-400">Menu</span>
+                <div className="flex-grow border-t border-gray-400"></div>
               </div>
-
-              {/* Sidebar Menu */}
-              <ul>
-                <li>
-                  <a href="#">Dashboard</a>
-                </li>
-                <li>
-                  <a href="#">Manage Orders</a>
-                </li>
-                <li>
-                  <a href="#">All Users</a>
-                </li>
-                <li className="mt-4">
-                  <a href="#">Home</a>
-                </li>
-                <li>
-                  <a href="#">Product</a>
-                </li>
-                <li>
-                  <a href="#">Order Tracking</a>
-                </li>
-                <li>
-                  <a href="#">Customer Support</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="p-4 w-full">
-            <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-            <AddProduct /> {/* ใส่ AddProduct ไว้ใน Dashboard */}
+              <li>
+                <a href="/dashboard">
+                  <MdDashboard />
+                  Dashboard
+                </a>
+              </li>
+              <li>
+                <a>
+                  <IoBagCheck />
+                  Manage Orders
+                </a>
+              </li>
+              <li>
+                <a href="/dashboard/add-product">
+                  <IoMdAddCircle />
+                  Add Product
+                </a>
+              </li>
+              <li>
+                <a href="/dashboard/manage-items">
+                  <MdOutlineDashboardCustomize />
+                  Manage Items
+                </a>
+              </li>
+              <li>
+                <a>
+                  <FaUserCircle />
+                  All Users
+                </a>
+              </li>
+              <div className="relative flex py-5 items-center">
+                <div className="flex-grow border-t border-gray-400"></div>
+                <span className="flex-shrink mx-4 text-gray-400">Hot Link</span>
+                <div className="flex-grow border-t border-gray-400"></div>
+              </div>
+              <li>
+                <a>Home</a>
+              </li>
+              <li>
+                <a>Products</a>
+              </li>
+              <li>
+                <a>Order Tracking</a>
+              </li>
+              <li>
+                <a>Customer Support</a>
+              </li>
+            </ul>
           </div>
         </div>
       ) : (
-        <div className="flex items-center justify-center h-screen text-xl font-bold">
-          You are not an Admin.{" "}
-          <a href="/" className="text-blue-500 underline ml-2">
-            Back to Home
-          </a>
-        </div>
+        <div>You are not an Admin! Back to Home</div>
       )}
-
     </div>
-  )
-}
+  );
+};
 
-export default DashboardLayout
+export default DashboardLayout;
