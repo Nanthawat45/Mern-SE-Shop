@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import ProductService from "../../services/porduct.service";
+import ProductService from "../../services/product.service";
 import Card from "../../components/Card";
 
 const SampleNextArrow = (props) => {

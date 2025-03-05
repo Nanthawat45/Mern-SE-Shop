@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
-import ProductService from "../../services/porduct.service";
+import ProductService from "../../services/product.service";
+
 
 const AddProduct = () => {
   const [product, setProduct] = useState({

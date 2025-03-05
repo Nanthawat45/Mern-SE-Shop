@@ -1,4 +1,4 @@
-import ProductItem from "../../components/ProductItem";
+import ProductItem from "../../components/Productitem";
 const Banner = () => {
   return (
     <div className="section-container bg-gradient-to-r from-[#FAFAFA] from-0% to-[#770505] to-100%">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ProductService from "../../services/porduct.service";
+import ProductService from "../../services/product.service";
 import Card from "../../components/Card";
 import { useSearchParams } from "react-router";
 const ProductList = () => {
