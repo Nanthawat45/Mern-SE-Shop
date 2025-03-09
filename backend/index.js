@@ -8,9 +8,11 @@ const cartRouter = require("./routers/cart.routers");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./Doc/swagger-output.json");
 const app = express();
+
 const BASE_URL = process.env.BASE_URL;
 const PORT = process.env.PORT;
 const DB_URL = process.env.DB_URL;
+const stripeRouter = require("./routers/stripe.router");
 
 //Connect to Mongo DB
 try {
@@ -21,6 +23,8 @@ try {
 }
 
 app.use(cors({ origin: BASE_URL, credentials: true }));
+// stripe webhook must use raw body
+app.use("api/v1/stripe/webhook", express.raw({ type: "application/json" }));
 app.use(express.json());
 app.get("/", (req, res) => {
   res.send("<h1>Welcome to SE Shop Restful API</h1>");
@@ -33,6 +37,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/product", productRouter);
 app.use("/api/v1/cart", cartRouter);
+app.use("/api/v1/stripe", stripeRouter);
 
 app.listen(PORT, () => {
   console.log("Server is running on http://localhost:" + PORT);

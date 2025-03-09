@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Swal from "sweetalert2";
 import ProductService from "../../services/product.service";
 
-
-const AddProduct = () => {
+const Index = () => {
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -162,4 +161,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default Index;

@@ -7,6 +7,7 @@ const secret = process.env.SECRET;
 
 exports.sign = async (req, res) => {
   const { email } = req.body;
+  //1.Check email is existing in DB?
   if (!email) {
     return res.status(400).json({ message: "Email is required" });
   }
@@ -15,7 +16,7 @@ exports.sign = async (req, res) => {
     return res.status(404).json({ message: "Email is not found" });
   }
   //2.Sign JWT token
- const token = jwt.sign(
+  const token = jwt.sign(
     { email: user.email, role: user.role },
     process.env.SECRET,
     {
@@ -31,101 +32,130 @@ exports.sign = async (req, res) => {
 };
 
 exports.addUser = async (req, res) => {
-  const {email} = req.body;
-  if(!email){
-  return res.status(400).json({message: "Email is required"});
-}
+  const { email } = req.body;
+  console.log(email);
+
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
   try {
-    const existeUser = await UserModel.findOne({email});
-    if(existeUser){
-      return res.status(409).json({message: "Email is already existed"});
+    const existedUser = await UserModel.findOne({ email });
+    if (existedUser) {
+      return res.status(200).json({ message: "Email is already existed" });
     }
-    const user = new UserModel({
-      email: email,
-      role: "user",
-    });
-    user.save();
+    const user = new UserModel({ email });
+    await user.save();
     res.status(201).json(user);
-  }catch (error){
+  } catch (error) {
     res.status(500).send({
       message:
-    error.message || "Something error occurred while adding a new user"
-  });
-}
+        error.message || "Something error occurred while adding a new user",
+    });
+  }
 };
 
 exports.getAllUsers = async (req, res) => {
-  try{
+  try {
     const users = await UserModel.find();
-    if(!users){
-      return res.status(200).json({message: "No have Users!"});
+    if (!users) {
+      return res.status(200).json({ message: "No User" });
     }
     res.status(200).json(users);
-  }catch (error){
-    res.status(500).send({message: error.message || "Something error occured while getting a users"});
-  }
-}
-
-exports.updateUser  = async (req, res) => {
-  const {id} = req.params;
-  const {email, role} = req.body;
-  if(!email){
-    return res.status(400).json({message: "Email is required!"});
-  }
-  try{
-    const user = await UserModel.findByIdAndUpdate(id, {email:email, role: role}, {new: true});
-    if(!user){
-      return res.status(404).json({message: "User not found"});
-    }
-    res.status(200).json(user);
-}catch (error){
-  res.status(500).send({message: error.message || "Something error occured while updating a user" });
+  } catch (error) {
+    res.status(500).send({
+      message: error.message || "Something error occurred while getting users",
+    });
   }
 };
 
+exports.updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { email, role } = req.body;
+  if (!email) {
+    return res.status(400).json({ message: "Email is required!" });
+  }
+  try {
+    const user = await UserModel.findByIdAndUpdate(
+      id,
+      { email, role },
+      { new: true }
+    );
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).send({
+      message: error.message || "Something error occurred while updating users",
+    });
+  }
+};
 
 exports.deleteUser = async (req, res) => {
-  const {id} = req.params;
-  if(!id)
+  const { id } = req.params;
   try {
     const user = await UserModel.findByIdAndDelete(id);
-    if(!user){
-      return res.status(404).json({message: "User not found"});
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
     }
-    res.status(200).json({message: "User is deleted successfully!"});
-  }catch (error){
-    res.status(500).send({message: ErrorEvent.message || "Something error occured while deleting a user"});
+    res.status(200).json({ message: "User was deleted successfully" });
+  } catch (error) {
+    res.status(500).send({
+      message: error.message || "Something error occurred while deleting users",
+    });
   }
-}
+};
 
 exports.makeAdmin = async (req, res) => {
-  const {email}= req.params;
-  try{
-    const user = await UserModel.findOneAndUpdate.findOne({email})
-    if(!user){
-      return res.status(404).json({message: "User not found"});
+  const { email } = req.params;
+  try {
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
     }
     user.role = "admin";
     user.save();
-    res.json(user)
-  }catch (error){
-    res.status(500).send({message: 
-      error.message || "Something error occured while making a user admin"});
+    res.json(user);
+  } catch (error) {
+    res.status(500).send({
+      message:
+        error.message ||
+        "Something error occurred while changing user role to admin",
+    });
   }
-}
+};
 
 exports.makeUser = async (req, res) => {
-  const {email}= req.params;
-  try{
-    const user = await UserModel.findOneAndUpdate.findOne({email})
-    if(!user){
-      return res.status(404).json({message: "User not found"});
+  const { email } = req.params;
+  try {
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
     }
     user.role = "user";
     user.save();
-    res.json(user)
-  }catch (error){
-    res.status(500).send({message: 
-      error.message || "Something error occured while making a user User"});
-    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).send({
+      message:
+        error.message ||
+        "Something error occurred while changing user role to user",
+    });
   }
+};
+
+exports.getRoleByEmail = async (req, res) => {
+  const { email } = req.params;
+  try {
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+    res.json({ role: user.role });
+  } catch (error) {
+    res.status(500).send({
+      message:
+        error.message || "Something error occurred while getting user role",
+    });
+  }
+};

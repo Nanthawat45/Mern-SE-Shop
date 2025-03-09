@@ -11,7 +11,7 @@ import Profile from "../pages/Profile/index";
 import ProtectPage from "../pages/ProtectPage/index";
 import Dashboard from "../pages/Dashboard/Index";
 import AddProduct from "../pages/AddProduct/index";
-import ManageItems from "../pages/ManageItems/Index";
+import ManageItems from "../pages/ManageItems/index";
 const router = createBrowserRouter([
   {
     path: "/",

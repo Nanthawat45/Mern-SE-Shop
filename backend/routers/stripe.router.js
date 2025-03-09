@@ -1,7 +1,8 @@
-const exports = require('express');
-const router = exports.Router();
-const stripeController = require('../controllers/stripe.controller');
+const exportss   = require('express');
+const router = exportss.Router();
+const stripeController = require('../controllers/stripes.controller');
 
 router.post('/create-checkout-session', stripeController.createCheckOutSession);
+router.post('/webhook', stripeController.webhook);
 
 module.exports = router;

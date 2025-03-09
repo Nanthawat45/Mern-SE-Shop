@@ -91,3 +91,63 @@ exports.createCheckOutSession = async (req, res) => {
 
   res.status(200).json({ url: session.url });
 };
+
+const clearCart = async (email) => {
+  try {
+    await CartModel.deleteMany({ email });
+    console.log("Cart is cleared");
+  } catch (error) {
+    res.status(500).send({
+      message: error.message || "Something error occured while clearing cart",
+    });
+  }
+};
+const createOrder = async (customer, data) => {
+  console.log("Products", products);
+  try {
+    const newOrder = await OrderModel.create({
+      email: customer.metadata.email,
+      customerId: customer.Id,
+      products,
+      subtotal: data.amount_total,
+      shipping:data.customer_details,
+      payment_status: data.payment_status,
+    }); 
+  } catch (error) {
+    res.status(500).send({
+      message:
+        error.message || "Something error occured while creating new order",
+    });
+  } 
+};
+exports.webhook = async (req, res) => {
+  console.log("webhook is called!");
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  console.log(endpointSecret);
+  const sig = req.headers["stripe-signature"];
+  let event;
+
+  try {
+    event = stripe.webhook.constructEvent(req.body, sig, endpointSecret);
+  } catch (err) {
+    res.status(400).send({ message: `Webhook Error: ${err.message}`});
+  }
+  // Handle the event
+  switch (event.type) {
+    case "checkout.session.completed":
+      console.log("Payment received!");
+      let data = event.data.object;
+      stripe.customer.retrieve(data.customer).then(async (customer) => {
+        try {
+          await createOrder(customer, data);
+        } catch (error) {
+          res.status(500).send({ message: `Webhook Error: ${err.message}` });
+        }
+      });
+      break;
+    // ... handle other event types
+    default:
+      console.log(`Unhandled event type ${event.type}`);  
+  }
+  res.status(200).end();
+};
