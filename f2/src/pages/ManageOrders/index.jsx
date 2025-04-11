@@ -128,7 +128,7 @@ const ManageOrders = () => {
       </div>
       <table className="table">
         {/* head */}
-        <thead className="bg-[#d6ccc2] text-white text-center">
+        <thead className="bg-[#ce2727] text-white text-center">
           <tr>
             <th>Order Id</th>
             <th>Email</th>
@@ -199,15 +199,7 @@ const ManageOrders = () => {
           )}
         </tbody>
         {/* foot */}
-        <tfoot className="text-center bg-white">
-          <tr>
-            <th>Order Id</th>
-            <th>Email</th>
-            <th>Total</th>
-            <th>Payment Status</th>
-            <th>Delivery Status</th>
-            <th>Action</th>
-          </tr>
+        <tfoot className="text-center bg-[#ce2727] text-white text-center">
         </tfoot>
       </table>
       {/* Pagination */}
@@ -219,7 +211,7 @@ const ManageOrders = () => {
             onClick={() => paginate(index + 1)}
             key={index}
             className={`mx-1 btn btn-ghost ${
-              currentPage === index + 1 ? "bg-[#d6ccc2] text-white" : ""
+              currentPage === index + 1 ? "bg-[#d6c2c2] text-white" : ""
             }`}
           >
             {index + 1}
