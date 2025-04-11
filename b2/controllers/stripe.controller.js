@@ -132,34 +132,30 @@ const createOrder = async (customer, data) => {
   }
 };
 exports.webhook = async (req, res) => {
-  console.log("webhook is called!");
-  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
-  console.log(endpointSecret);
+  console.log("Stripe Webhook Secret:", process.env.STRIPE_WEBHOOK_SECRET); // ตรวจสอบค่า STRIPE_WEBHOOK_SECRET
+
   const sig = req.headers["stripe-signature"];
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
   let event;
-  console.log(event);
 
   try {
+    // ใช้ STRIPE_WEBHOOK_SECRET เพื่อตรวจสอบความถูกต้องของ Webhook
     event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
   } catch (err) {
-    res.status(400).send({ message: `Webhook Error: ${err.message}` });
+    console.error(`⚠️  Webhook signature verification failed.`, err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
   }
-  // Handle the event
+
+  // จัดการเหตุการณ์ (event) ที่ได้รับจาก Stripe
   switch (event.type) {
     case "checkout.session.completed":
-      console.log("Payment received!");
-      let data = event.data.object;
-      stripe.customers.retrieve(data.customer).then(async (customer) => {
-        try {
-          await createOrder(customer, data);
-        } catch (error) {
-          res.status(500).send({ message: `Webhook Error: ${err.message}` });
-        }
-      });
+      const session = event.data.object;
+      console.log("Checkout session completed:", session);
       break;
-    // ... handle other event types
     default:
       console.log(`Unhandled event type ${event.type}`);
   }
-  res.status(200).end();
+
+  res.status(200).send("Received");
 };

@@ -9,9 +9,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./Doc/swagger-output.json");
 const app = express();
 
-const BASE_URL = process.env.BASE_URL;
-const PORT = process.env.PORT;
-const DB_URL = process.env.DB_URL;
+
 const stripeRouter = require("./routers/stripe.router");
 
 //Connect to Mongo DB

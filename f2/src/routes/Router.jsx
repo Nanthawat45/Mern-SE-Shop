@@ -92,7 +92,7 @@ const router = createBrowserRouter([
         element: <ManageUsers />,
       },
       {
-        path: "manage-orders ",
+        path: "manage-orders",
         element: <ManageOrders />,
       },
     ],
