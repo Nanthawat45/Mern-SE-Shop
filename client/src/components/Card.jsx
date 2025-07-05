@@ -40,5 +40,5 @@ const Card = ({ item }) => {
     </div>
   );
 };
-
+// This component represents a card that displays an item with its details.
 export default Card;
